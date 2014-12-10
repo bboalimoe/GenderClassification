@@ -15,7 +15,6 @@ import decimal
 #       - P'(female|D) = P(female|D) / ( P(male|D) + P(female|D) )
 
 class NBC:
-    case = 0
     def __init__(self, train_file):
         # Get trainning cases from json file.
         self.tCase      = case.Case(train_file)
