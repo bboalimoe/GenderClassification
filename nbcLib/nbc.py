@@ -20,11 +20,13 @@ class NBC:
         # Get trainning cases from json file.
         self.tCase      = case.Case(train_file)
         self.tCase.printCaseInfo()
+        # The list of hypothesis
+        # It's a list.
         self.hypothesis = self.tCase.hypothesis
         # The prior probability of every hypothesis
-        # It is a directory, the key is hypothesis' name, and the value is the prior probability
+        # It is a list.
         self.prior_p    = []
-        # Every item's likelihood at certain hypothesis. It's a 3-dimensional variable
+        # Every item's likelihood at certain hypothesis. It's a 3-dimensional list variable
         # - 1. The size of likelihood is case's item count
         # - 2. Every element of likelihood is [H0, H1, ... Hi ... Hn]
         #   Hi contains the item's every possible result's possibility in Hi (that is likelihood's definition)
@@ -35,19 +37,27 @@ class NBC:
     # The prediction of new case
     # It's a normalization method
     def predictCase(self, D):
+        #start classifying ...
+        print "\nThe classifying started"
+        print "======================="
         # Init tmp variable
-        result = []
+        result = {}
         P = 0
         # Calculate the Denominator
         for h in self.hypothesis:
             P += self.posteriorP(h, D)
-            print "posterior", self.posteriorP(h, D)
+            print "- the posterior true probability of", h, "is", self.posteriorP(h, D)
         # Calculate the Molecular
-        for h in self.hypothesis:
-            p = self.posteriorP(h, D) / P
-            item = {h : p}
-            result.append(item)
-        return result
+        try:
+            for h in self.hypothesis:
+                p = self.posteriorP(h, D) / P
+                result[h] = p
+            return result
+        except:
+            print "The result is not accuracy enough.Please add more tranning cases."
+            for h in self.hypothesis:
+                result[h] = "unknown"
+            return result
 
     # It will train the NBC by calculating various of probability with cases' data
     # First, it calcutates the prior probability of every hypothesis.
