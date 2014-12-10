@@ -39,6 +39,15 @@ class Case:
         # return the decode result
         return case
 
+    # Get the cases in hypothesis 'h'
+    def getCaseInHypo(self, h):
+        case = []
+        for i in range(0, self.caseCount):
+            index_key = '%d' %i
+            if h == self.case[index_key]["h"]:
+                case.append(self.case[index_key]["case"])
+        return case
+
     # Get the hypothesis' count in cases
     def getHypothesisCount(self, h):
         count = 0
